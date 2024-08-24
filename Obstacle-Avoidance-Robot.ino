@@ -10,6 +10,8 @@ Servo Myservo;
 #define leftMotorB 5        // Left motor 2nd pin
 #define rightMotorA 6       // Right motor 1st pin
 #define rightMotorB 7       // Right motor 2nd pin
+#define ENA 3               // Enable pin for the left motor
+#define ENB 11              // Enable pin for the right motor
 
 // Variables to store the duration of the ultrasonic pulse and the calculated distance
 long duration, distance;
@@ -23,7 +25,8 @@ void setup() {
   pinMode(leftMotorB, OUTPUT);
   pinMode(rightMotorA, OUTPUT);
   pinMode(rightMotorB, OUTPUT);
-  
+  pinMode(ENA,OUTPUT);
+  pinMode(ENB,OUTPUT);
   // Set the Trig pin as output to transmit ultrasonic waves
   pinMode(trigPin, OUTPUT); 
   // Set the Echo pin as input to receive the reflected ultrasonic waves
@@ -31,6 +34,9 @@ void setup() {
   
   // Attach the servo motor to pin 10
   Myservo.attach(10);
+
+  analogWrite(ENA, 120); // Set ENA to full speed (0-255)
+  analogWrite(ENB, 120); // Set ENB to full speed (0-255)
 }
 
 void loop() {
@@ -79,19 +85,19 @@ void moveForward() {
   Myservo.write(90);  // Keep the servo motor centered (for scanning)
   
   // Set motor pins to move the robot forward
-  digitalWrite(rightMotorB, HIGH);       
-  digitalWrite(rightMotorA, LOW);
-  digitalWrite(leftMotorB, HIGH);                                
-  digitalWrite(leftMotorA, LOW);
+  digitalWrite(rightMotorB, LOW);       
+  digitalWrite(rightMotorA, HIGH);
+  digitalWrite(leftMotorB, LOW);                                
+  digitalWrite(leftMotorA, HIGH);
 }
 
 // Function to move the robot backward
 void moveBackward() {
   // Set motor pins to move the robot backward
-  digitalWrite(rightMotorB, LOW);             
-  digitalWrite(rightMotorA, HIGH);
-  digitalWrite(leftMotorB, LOW);                                
-  digitalWrite(leftMotorA, HIGH);
+  digitalWrite(rightMotorB, HIGH);             
+  digitalWrite(rightMotorA, LOW);
+  digitalWrite(leftMotorB, HIGH);                                
+  digitalWrite(leftMotorA, LOW);
   
   delay(500);  // Move backward for 500 milliseconds
 }
@@ -121,11 +127,11 @@ void stopMovement() {
 // Function to scan for obstacles and avoid them using the servo motor
 void scanAndAvoidObstacle() {
   Myservo.write(0);   // Rotate the servo to the leftmost position
-  delay(500);         // Wait for 500 milliseconds
+  delay(1000);         // Wait for 1000 milliseconds
   
   Myservo.write(180); // Rotate the servo to the rightmost position
-  delay(500);         // Wait for 500 milliseconds
+  delay(1000);         // Wait for 1000 milliseconds
   
   Myservo.write(90);  // Return the servo to the center position
-  delay(500);         // Wait for 500 milliseconds
+  delay(1000);         // Wait for 1000 milliseconds
 }
