@@ -36,6 +36,10 @@ This Arduino-based project uses an ultrasonic sensor and a servo motor to create
 - **`rightMotorA`**: Pin 6
 - **`rightMotorB`**: Pin 7
 
+### Motor Enable pin:
+- **`ENA`**: Pin 3
+- **`ENB`**: Pin 11
+
 ## Code Overview
 
 - **`setup()`**: Initializes the pins and starts serial communication.
